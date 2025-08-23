@@ -8,5 +8,6 @@ slidders.forEach((slidder) => slidder.addEventListener ("input", generateShadow)
 
 function generateShadow(){
   
+  const shadowParametas = getShadowParametas();
 
 }
