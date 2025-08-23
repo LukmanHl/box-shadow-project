@@ -11,6 +11,7 @@ function generateShadow(){
   const shadowParametas = getShadowParametas();
   const boxShadow = createBoxShadow(...shadowParametas);
   applyShadow(elem, boxShadow);
+  updateCode(boxShadow);
 
 }
 
@@ -21,9 +22,9 @@ function getShadowParametas(){
   const blurRadius = parseInt(document.getElementById("blur-radius").value);
   const spreadRadius = parseInt(document.getElementById("spread-radius").value);
   const shadowColor = document.getElementById("shadow-color").value;
-  const shadowColorOpacity = document.getElementById("shadow-color-opacity").value;
+  const shadowColorOpacity = parseFloat(document.getElementById("shadow-color-opacity").value).toFixed(1);
 
-  const shadowInset = parseInt( document.getElementById("shadow-inset").checked).toFixed;
+  const shadowInset = document.getElementById("shadow-inset").checked;
 
   return[ hShadow,
     vShadow,
@@ -31,6 +32,7 @@ function getShadowParametas(){
     spreadRadius,
     shadowColor,
     shadowColorOpacity,
+    shadowInset
   ]
 }
 
@@ -40,7 +42,7 @@ function createBoxShadow(hShadow, vShadow, blurRadius, spreadRadius, color, opac
   const shadow = inset ? "inset" : "";
   const rgbaColor = hexToRgba(color, opacity);
 
-  return `${shadow} ${hShadow}px ${vShadow}px ${blurRadius}px ${spreadRadius}px ${rgbaColor}px `
+  return `${shadow} ${hShadow}px ${vShadow}px ${blurRadius}px ${spreadRadius}px ${rgbaColor}`
 }
 
 function hexToRgba(color, opacity){
@@ -52,6 +54,21 @@ function hexToRgba(color, opacity){
 }
 
 
-applyShadow(element, boxShadow){
+function applyShadow(element, boxShadow){
    element.style.boxShadow = boxShadow;
 }
+
+function updateCode(text){
+  code.textContent = `box-shadow: ${text}`;
+}
+
+
+function copyCode(){
+  const codeText = code.textContent;
+  navigator.clipboard.writeText(codeText)
+    .then(() => {
+      alert("Code copied to clipboard");
+    })
+}
+
+window.onload = generateShadow;
